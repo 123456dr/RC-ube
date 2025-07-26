@@ -1,0 +1,4 @@
+<base href="/RC-ube/web/vx.x/">  
+
+up 記得改版本號
++改/
