@@ -1,0 +1,18 @@
+.ButtonSelectCube {
+  position: absolute;
+  z-index: 1000;
+  padding: 6px 12px;
+  left: 10px; /* 預設值 */
+  transition: left 0.3s ease;
+}
+
+@media screen and (min-width: 715px) {
+  .ButtonSelectCube {
+    left: 120px;
+  }
+}
+@media screen and (min-width: 1016px) {
+  .ButtonSelectCube {
+    left: 230px;
+  }
+}
