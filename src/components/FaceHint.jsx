@@ -42,12 +42,13 @@ function FaceHint({ selectedCube ,faceHover, setFaceHover, selectHover, setSelec
             <meshBasicMaterial 
                 color="red" 
                 transparent 
-                opacity={ faceHover==="x" || selectHover=== "x" ? 0.6 :selectHover!==null ? 0 : 0.4} 
+                opacity={ faceHover==="x" || selectHover=== "x" ? 0.1 :selectHover!==null ? 0 : 0.1} 
                 depthWrite={false}  
                 polygonOffset 
                 polygonOffsetFactor={-1}
             /> {/* depthWrite={false}不寫入z-buffer(深度緩衝區) */}
-            {(faceHover === "x" || selectHover === "x") && (
+            {/*<Edges scale={1.01} threshold={15} color="red" />*/}
+            {(selectHover===null || selectHover === "x") && (
                 <Edges scale={1.01} threshold={15} color="red" />
             )}
         </mesh>
@@ -74,12 +75,13 @@ function FaceHint({ selectedCube ,faceHover, setFaceHover, selectHover, setSelec
             <meshBasicMaterial 
                 color="green" 
                 transparent 
-                opacity={ faceHover==="y" || selectHover=== "y" ? 0.7 :selectHover!==null ? 0 : 0.4}
+                opacity={ faceHover==="y" || selectHover=== "y" ? 0.1 :selectHover!==null ? 0 : 0.1}
                 depthWrite={false} 
                 polygonOffset 
                 polygonOffsetFactor={-1}
             />
-            {(faceHover === "y" || selectHover === "y") && (
+            {/*<Edges scale={1.01} threshold={15} color="green"/>*/}
+            {(selectHover===null || selectHover === "y") && (
                 <Edges scale={1.01} threshold={15} color="green"/>
             )}
         </mesh>
@@ -106,12 +108,13 @@ function FaceHint({ selectedCube ,faceHover, setFaceHover, selectHover, setSelec
             <meshBasicMaterial 
                 color="blue" 
                 transparent 
-                opacity={ faceHover==="z" || selectHover=== "z" ? 0.5 :selectHover!==null ? 0 : 0.3} 
+                opacity={ faceHover==="z" || selectHover=== "z" ? 0.1 :selectHover!==null ? 0 : 0.1} 
                 depthWrite={false} 
                 polygonOffset 
                 polygonOffsetFactor={-1}
             />
-            {(faceHover === "z" || selectHover === "z") && (
+            {/*<Edges scale={1.01} threshold={15} color="blue" />*/}
+            {(selectHover===null || selectHover === "z") && (
             <Edges scale={1.01} threshold={15} color="blue" />
             )}
         </mesh>

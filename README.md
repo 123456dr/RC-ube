@@ -35,6 +35,10 @@ Version History:
         - Added button: “Select Face / ReSelect”
         - Clicking "ReSelect" restores all three faces.
 
+    - v2.0.3 style(3x3 cube): add responsive logic for initial camera setup
+
+    - v2.1 style(cubes' color): Initialize the six face colors (white, yellow, blue, green, orange, red)
+
 
 
 

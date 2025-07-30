@@ -8,6 +8,7 @@ import { CiUnlock } from "react-icons/ci"; //npm install react-icons
 import "../css/RCube.css";
 import CubeCollect from "../components/Cube.jsx";
 import FaceHint from "../components/FaceHint.jsx";
+import Rotate from "../components/Rotate.jsx";
  
 
 
@@ -24,13 +25,13 @@ export default function RCube() {
      <div style={{ width: "100vw", height: "100vh", overflow: "hidden", position: "relative" }}>  {/* vm == viewport width*/}
         <button onClick={() => {if(selectedCube===null){alert("Please select one cube!"); return;} if (mouseLock && selectHover !== null) {setMouseLock(false); setSelectHover(null); setFaceHover(null);  } else {  setMouseLock(!mouseLock);  } }}
             className="ButtonSelectCube"style={{ top: "10px" }}>
-            { mouseLock ? (<> Cancel MouseLocked <CiLock /> </> ) : ( <> MouseLocked <CiUnlock /> </> )}{/* absolute 文件流微調不改變其他物件位置 */}
+            { mouseLock ? (<> ReSelect one Cube <CiLock /> </> ) : ( <> MouseLocked <CiUnlock /> </> )}{/* absolute 文件流微調不改變其他物件位置 */}
         </button>
         
         <button onClick={() => {if(selectedCube===null){alert("Please select one cube!"); return;}  if(selectHover!==null){setSelectHover(null); setFaceHover(null);} else {setMouseLock(true);}}} 
             className="ButtonSelectCube" style={{ top: "50px" }}
         >
-            { selectHover !== null ? "ReSelect" : mouseLock ? "NowSelect Face"  : selectedCube ? "Click Me to select face":""}
+            { selectHover !== null ? "ReSelect Face" : mouseLock ? "NowSelect Face"  : selectedCube ? "Click Me to select face":""}
         </button>
 
       
