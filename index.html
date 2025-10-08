@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC'ube Devlog</title>
+<style>
+body::before {
+    content: "";
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 150px;
+    height: 150px;
+    background: url('v2.1/rc.png') no-repeat center center / contain;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
+}
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, "Noto Sans TC", sans-serif;
+    background-color: #04011c;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: rgba(10,10,25,0.7);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 1000;
+}
+.menu-btn {
+    width: 28px;
+    height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.menu-btn span {
+    height: 3px;
+    background: #00ffe0;
+    border-radius: 2px;
+    transition: 0.3s;
+}
+nav {
+    position: fixed;
+    top: 0;
+    left: -220px;
+    width: 200px;
+    height: 100%;
+    background: linear-gradient(180deg, #0f0f1f, #060612);
+    box-shadow: 3px 0 15px rgba(0,0,0,0.4);
+    transition: left 0.3s ease;
+    padding-top: 70px;
+    z-index: 2000;
+}
+nav a {
+    display: block;
+    padding: 12px 20px;
+    color: #cfd8dc;
+    text-decoration: none;
+    font-size: 0.95em;
+    transition: background 0.25s;
+}
+nav a:hover {
+    background: rgba(0,255,255,0.08);
+    color: #00ffe0;
+}
+nav.show {
+    left: 0;
+}
+.menu-btn.active span:nth-child(1) {
+    transform: translateY(8.5px) rotate(45deg);
+}
+.menu-btn.active span:nth-child(2) {
+    opacity: 0;
+}
+.menu-btn.active span:nth-child(3) {
+    transform: translateY(-8.5px) rotate(-45deg);
+}
+h1 {
+    text-align: center;
+    padding: 90px 20px 30px;
+    font-size: 2.2em;
+    letter-spacing: .5px;
+    background: linear-gradient(90deg, #00ffe0, #0066ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+
+/* 預覽區塊 */
+/* 預覽區塊 */
+#preview {
+    display: none;
+    width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #0f0f1f;
+    border-radius: 14px;
+    box-shadow: 0 0 20px rgba(0,255,255,0.3);
+    transition: all 0.3s ease;
+}
+#preview h2 {
+    color: #00ffe0;
+    margin-bottom: 10px;
+}
+#preview p {
+    color: #cfd8dc;
+    margin-bottom: 10px;
+    white-space: pre-line;
+    word-wrap: break-word;
+}
+#preview iframe {
+    width: 70%;
+    height: 300px;
+    border: 2px solid #fff;
+    display: block;
+    margin: 0 auto;
+    background: #0c0c0c;
+}
+
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 0 20px 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.card {
+    background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color .3s ease;
+    cursor: pointer;
+    position: relative;
+    border: 1px solid rgba(0, 255, 255, 0.08);
+    width: 90%;
+}
+.card.active {
+    border-color: #00ffe0;
+}
+.card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.45);
+    border-color: rgba(0, 255, 255, 0.25);
+}
+.badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    background: rgba(0, 255, 255, 0.12);
+    border: 1px solid rgba(0, 255, 255, 0.35);
+    color: #9afcff;
+    backdrop-filter: blur(6px);
+    pointer-events: none;
+}
+.card iframe {
+    width: 100%;
+    height: 220px;
+    border: none;
+    filter: brightness(0.85);
+    transition: filter 0.3s ease;
+    pointer-events: none;
+    background: #0c0c0c;
+}
+.card:hover iframe {
+    filter: brightness(1);
+}
+.card-content {
+    padding: 16px 16px 18px;
+}
+.card-title {
+    font-size: 1.15em;
+    color: #00ffe0;
+    margin: 0 0 10px 0;
+    font-weight: 600;
+}
+.card-desc {
+    font-size: 0.96em;
+    color: #cfd8dc;
+    line-height: 1.55;
+    white-space: pre-line;
+}
+.card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(0, 255, 255, 0.12), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.card:hover::after {
+    opacity: 1;
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const menuBtn = document.querySelector('.menu-btn');
+    const nav = document.querySelector('nav');
+
+    // 點擊漢堡選單切換
+    menuBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // 避免冒泡觸發 document click
+        menuBtn.classList.toggle('active');
+        nav.classList.toggle('show');
+    });
+
+    // 點擊頁面其他地方自動收合
+    document.addEventListener('click', (e) => {
+        if (nav.classList.contains('show') &&
+            !nav.contains(e.target) &&
+            !menuBtn.contains(e.target)) {
+            nav.classList.remove('show');
+            menuBtn.classList.remove('active');
+        }
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.card');
+
+    // 創建單一 preview 元素
+    const preview = document.createElement('div');
+    preview.id = 'preview';
+    preview.innerHTML = `
+        <h2 id="preview-title"></h2>
+        <p id="preview-desc"></p>
+        <iframe id="preview-iframe"></iframe>
+    `;
+    preview.style.display = 'none';
+    document.body.appendChild(preview);
+
+    let currentCard = null; // 保存當前被替換的卡片
+
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            // 如果已經有卡片被替換，先恢復它
+            if (currentCard) {
+                currentCard.style.display = 'block';
+                currentCard.classList.remove('active');
+            }
+
+            // 將當前卡片隱藏
+            card.style.display = 'none';
+            card.classList.add('active');
+            currentCard = card;
+
+            // 更新預覽內容
+            preview.querySelector('#preview-title').textContent = card.querySelector('.card-title').textContent;
+            preview.querySelector('#preview-desc').textContent = card.querySelector('.card-desc').textContent;
+            preview.querySelector('#preview-iframe').src = card.querySelector('iframe').src;
+
+            // 將預覽插入到原卡片位置
+            card.parentElement.insertBefore(preview, card.nextSibling);
+            preview.style.display = 'block';
+        });
+    });
+});
+
+</script>
+
+
+</head>
+<body>
+<header>
+    <div class="menu-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</header>
+<nav>
+    <a href="https://github.com/123456dr/RC-ube" target="_blank">
+        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" 
+       alt="GitHub" width="13" height="13">
+       Github Repo</a>
+    <a href="#v1.0">v1.0</a>
+    <a href="#v1.1">v1.1</a>
+    <a href="#v1.2">v1.2</a>
+    <a href="#v2.0">v2.0</a>
+    <a href="#v2.1">v2.1</a>
+</nav>
+<h1>
+    RC'ube Devlog
+    <img src="v2.1/rc.png" alt="RC'ube Icon" class="title-icon" style="width: 50px;">
+</h1>
+
+<div id="preview">
+    <h2 id="preview-title"></h2>
+    <p id="preview-desc"></p>
+    <iframe id="preview-iframe"></iframe>
+</div>
+<div class="container">
+    <div class="card" id="v2.1">
+        <iframe src="https://123456dr.github.io/RC-ube/web/v2.1/"></iframe>
+        <div class="card-content">
+            <div class="card-title">v2.1 — 色彩初始化</div>
+            <div class="card-desc">v2.1 style(cubes' color): Initialize the six face colors (white, yellow, blue, green, orange, red)</div>
+        </div>
+    </div>
+    <div class="card" id="v2.0">
+        <span class="badge">含小版本：v2.0.1、v2.0.2、v2.0.3</span>
+        <iframe src="https://123456dr.github.io/RC-ube/web/v2.0/"></iframe>
+        <div class="card-content">
+            <div class="card-title">v2.0 — 建立方塊共用面選擇功能</div>
+            <div class="card-desc">v2.0.1 feat(face-select): Add face selection logic
+- When a cube is selected, the three axis-aligned planes shared with it are shown.
+- Hovering over a face highlights it.
+- Clicking a highlighted face locks that face and hides the other two.
+- Only when the user cancel “MouseLocked” can they select a new cube and see its shared planes again.
+
+v2.0.2 feat(re-selection):
+- Added button: “Select Face / ReSelect”
+- Clicking "ReSelect" restores all three faces.
+
+v2.0.3 style(3x3 cube): add responsive logic for initial camera setup</div>
+        </div>
+    </div>
+    <div class="card" id="v1.2">
+        <span class="badge">含小版本：v1.2.1、v1.2.2</span>
+        <iframe src="https://123456dr.github.io/RC-ube/web/v1.2/"></iframe>
+        <div class="card-content">
+            <div class="card-title">v1.2 — 穩定性與操作改善</div>
+            <div class="card-desc">v1.2.1 fix(z-fighting): Fixed Z-fighting flickering issue
+- Resolved flickering caused by overlapping transparent frames.
+
+v1.2.2 feat(button_mouselock): added mouse lock feature
+- Introduced a "Mouse Lock" toggle button.
+- Prevents accidental cube selection while rotating the camera.
+- User must unlock to select a new cube.</div>
+        </div>
+    </div>
+    <div class="card" id="v1.1">
+        <iframe src="https://123456dr.github.io/RC-ube/web/v1.1/"></iframe>
+        <div class="card-content">
+            <div class="card-title">v1.1 — 重構共用面顯示效果</div>
+            <div class="card-desc">v1.1 refactor(select): Updated the selection function to improve visibility.
+- Replaced subtle edge coloring with three large colored frames.
+- Each frame covers the 9 cubes along one axis (X, Y, Z) that align with the selected cube.
+> This provides a much clearer visual indication of selection across all three directions.</div>
+        </div>
+    </div>
+    <div class="card" id="v1.0">
+        <iframe src="https://123456dr.github.io/RC-ube/web/v1.0/"></iframe>
+        <div class="card-content">
+            <div class="card-title">v1.0 — 建立基礎方塊選擇</div>
+            <div class="card-desc">v1.0 feat(select): create basic select func
+- When a cube is selected, the edge colors of the 9 cubes aligned with it along the X, Y, and Z axes are updated.
+> This serves as a visual cue to indicate which cubes share the same axis planes with the selected one.</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
